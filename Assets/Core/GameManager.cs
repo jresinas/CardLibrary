@@ -9,6 +9,7 @@ public class Setup {
     public CardData[] cards;
 }
 public class GameManager : MonoBehaviour {
+    public static int BUTTONS = 2;
     public Setup[] setups;
 
     void Awake() {

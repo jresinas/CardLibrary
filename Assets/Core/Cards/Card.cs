@@ -69,7 +69,7 @@ public class Card : MonoBehaviour {
     }
 
     public virtual bool AllowMove(Slot destiny) {
-        return destiny != null;
+        return destiny != null && destiny.AllowAdd(this) && GetSlot() != null && GetSlot().AllowRemove(this);
     }
 
     public virtual bool AllowFlip() {
