@@ -3366,7 +3366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 913825271}
   - component: {fileID: 913825270}
-  - component: {fileID: 913825272}
+  - component: {fileID: 913825273}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3428,7 +3428,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &913825272
+--- !u!114 &913825273
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3437,9 +3437,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 913825269}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93bf36318502a3c4193cfb8baeb274de, type: 3}
+  m_Script: {fileID: 11500000, guid: 386c7827724f7564ca8f7585fec3213f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  customSlotOrigin: {fileID: 2093373606}
+  customSlotDestiny: {fileID: 271436379}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

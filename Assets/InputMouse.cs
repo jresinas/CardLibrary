@@ -3,77 +3,91 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InputMouse : MonoBehaviour {
-    // Time pressing mouse button to start dragging
-    float DRAG_THRESHOLD = 0.15f;
-    // Card height when is dragging
-    float DRAG_HEIGHT = 1f;
+    protected float DRAG_HEIGHT = 1f;
+    protected float PRESS_THRESHOLD = 0.15f;
 
-    // Current selected card (for dragging or zoom)
-    CardController card = null;
-    // Is zoom a card
-    bool zoom = false;
-    // Is dragging a card
-    bool drag = false;
-    // Time mouse button is pressed
-    float press = 0;
+    protected int state = 0;
+    protected bool[] hold = new bool[GameManager.BUTTONS];
+    protected float[] press = new float[GameManager.BUTTONS];
+    protected bool[] drag = new bool[GameManager.BUTTONS];
+    protected CardController[] selectedCard = new CardController[GameManager.BUTTONS];
+
+    protected virtual void ActionClick(int button) { }
+    protected virtual void EnterActionHold(int button) { }
+    protected virtual void ExitActionHold(int button) { }
+    protected virtual void ChangeState(int current, int next) { }
 
     void Update() {
-        // Select card
-        if (Input.GetButtonDown("Fire1")) {
-            card = GetCard();
-        }
-
-        // Left mouse button behaviour
-        if (card != null && Input.GetButtonUp("Fire1")) {
-            if (drag) ExitDrag();
-            else {
-                if (zoom) ExitZoom();
-                else EnterZoom();
-            }
-        }
-
-        // Holding left mouse button 
-        if (Input.GetButton("Fire1")) {
-            if (!zoom && card != null) {
-                CardController selectedCard = GetCard();
-                if (selectedCard == card) press += Time.deltaTime;
-                else press = 0;
-            }
+        if (state == 0) {
+            ButtonBehaviour(0);
+            ButtonBehaviour(1);
         } else {
-            press = 0;
-        }
-
-        // Start dragging
-        if (!drag && press > DRAG_THRESHOLD) {
-            EnterDrag();
-        }
-
-        // Dragging behaviour
-        if (drag) {
-            if (card != null) {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                Vector3 point = ray.GetPoint(5f);
-                card.gameObject.transform.position = new Vector3(point.x, DRAG_HEIGHT, point.z);
+            for (int i = 0; i < GameManager.BUTTONS; i++) {
+                if (Input.GetButtonDown("Button" + i)) {
+                    for (int j = 0; j < GameManager.BUTTONS; j++) {
+                        ExitZoom(j);
+                    }
+                }
             }
-        }
-
-        // Right mouse button behaviour
-        if (Input.GetButtonUp("Fire2") && !zoom) {
-            CardController revealCard = GetCard();
-            if (revealCard != null) {
-                revealCard.Flip();
+            /*
+            if (Input.GetButtonDown("Button0") || Input.GetButtonDown("Button1")) {
+                ExitZoom(0);
+                ExitZoom(1);
             }
+            */
         }
 
         //if (drag && card != null) Debug.Log(CheckDestiny());
     }
 
+    /*
     // Return true if dragging and card can be dropped in current slot below cursor
     bool CheckDestiny() {
         if (drag && card != null) {
             Slot slot = GetSlot();
             return (slot != null && slot.AllowAdd(card));
         } else return false;
+    }
+    */
+
+    void ButtonBehaviour(int button) {
+        if (Input.GetButtonDown("Button" + button)) {
+            selectedCard[button] = GetCard();
+        }
+
+        if (Input.GetButtonUp("Button" + button)) {
+            CardController card = GetCard();
+            if (hold[button]) {
+                hold[button] = false;
+                ExitActionHold(button);
+            } else if (card != null && card == selectedCard[button]) ActionClick(button);
+        }
+
+        if (Input.GetButton("Button" + button)) {
+            CardController card = GetCard();
+            if (card != null && card == selectedCard[button]) press[button] += Time.deltaTime;
+            else press[button] = 0;
+        } else {
+            press[button] = 0;
+        }
+
+        if (press[button] > PRESS_THRESHOLD) {
+            EnterActionHold(button);
+            hold[button] = true;
+        }
+
+        if (drag[button]) {
+            if (selectedCard[button] != null) {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Vector3 point = ray.GetPoint(5f);
+                selectedCard[button].gameObject.transform.position = new Vector3(point.x, DRAG_HEIGHT, point.z);
+            }
+        }
+    }
+
+    void SetState(int state) {
+        ChangeState(this.state, state);
+        this.state = state;
     }
 
     // Get current card below cursor
@@ -90,7 +104,6 @@ public class InputMouse : MonoBehaviour {
 
     // Get current slot below cursor
     Slot GetSlot() {
-        //Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll(ray);
         foreach (RaycastHit hit in hits) {
@@ -101,42 +114,45 @@ public class InputMouse : MonoBehaviour {
         return null;
     }
 
-    void EnterZoom() {
-        Card currentCard = GetCard();
-        if (card != null && card == currentCard) {
-            card.EnterZoom();
-            //card.EnterZoomReveal();
-            zoom = true;
+    protected void EnterZoom(int button) {
+        if (selectedCard[button] != null) {
+            selectedCard[button].EnterZoom();
+            SetState(1);
         }
     }
 
-    void ExitZoom() {
-        if (card != null) {
-            card.ExitZoom();
-            card = null;
-            zoom = false;
+    protected void EnterZoomReveal(int button) {
+        if (selectedCard[button] != null) {
+            selectedCard[button].EnterZoomReveal();
+            SetState(1);
         }
     }
 
-    void EnterDrag() {
-        if (card != null) drag = true;
+    protected void ExitZoom(int button) {
+        if (selectedCard[button] != null) {
+            selectedCard[button].ExitZoom();
+            selectedCard[button] = null;
+            SetState(0);
+        }
     }
 
-    void ExitDrag() {
-        if (card != null) {
+    protected void EnterDrag(int button) {
+        if (selectedCard[button] != null) drag[button] = true;
+    }
+
+    protected void ExitDrag(int button) {
+        if (selectedCard[button] != null) {
             Slot slot = GetSlot();
-            /*
-            if (slot != null && slot.AllowDrag(card)) {
-                Slot currentSlot = card.GetSlot();
-                if (currentSlot.AllowAdd(card) || (slot == currentSlot && currentSlot.AllowReorder(card))) {
-                    if (!currentSlot.Move(slot, card)) card.ExitDrag();
-                }
-            } else card.ExitDrag();
-            */
-            card.Move(slot);
-            card.ExitDrag();
-            card = null;
-            drag = false;
+            selectedCard[button].Move(slot);
+            selectedCard[button].ExitDrag();
+            selectedCard[button] = null;
+            drag[button] = false;
+        }
+    }
+
+    protected void Flip(int button) {
+        if (selectedCard[button] != null) {
+            selectedCard[button].Flip();
         }
     }
 }
