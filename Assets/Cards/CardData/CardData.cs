@@ -14,7 +14,15 @@ public class CardData : ScriptableObject {
         return cost;
     }
 
-    public GameObject Instantiate() {
-        return Instantiate(cardType);
+    public Card Instantiate(Slot slot) {
+        if (cardType != null) {
+            GameObject obj = Instantiate(cardType, slot.transform);
+            CardController card = obj.GetComponent<CardController>();
+            card.SetData(this);
+            return card;
+        } else {
+            Debug.LogError("Card type undefined");
+            return null;
+        }
     }
 }
