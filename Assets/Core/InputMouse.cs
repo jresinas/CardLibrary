@@ -5,6 +5,7 @@ using UnityEngine;
 public class InputMouse : MonoBehaviour {
     protected float DRAG_HEIGHT = 1f;
     protected float PRESS_THRESHOLD = 0.15f;
+    public int player = 1;
 
     protected int state = 0;
     protected bool[] hold = new bool[GameManager.BUTTONS];
@@ -123,7 +124,7 @@ public class InputMouse : MonoBehaviour {
 
     protected void EnterZoomReveal(int button) {
         if (selectedCard[button] != null) {
-            selectedCard[button].EnterZoomReveal(GameManager.player);
+            selectedCard[button].EnterZoomReveal(player);
             SetState(1);
         }
     }
@@ -143,7 +144,7 @@ public class InputMouse : MonoBehaviour {
     protected void ExitDrag(int button) {
         if (selectedCard[button] != null) {
             Slot slot = GetSlot();
-            selectedCard[button].Move(GameManager.player, slot);
+            selectedCard[button].Move(player, slot);
             selectedCard[button].ExitDrag();
             selectedCard[button] = null;
             drag[button] = false;
@@ -152,7 +153,7 @@ public class InputMouse : MonoBehaviour {
 
     protected void Flip(int button) {
         if (selectedCard[button] != null) {
-            selectedCard[button].Flip(GameManager.player);
+            selectedCard[button].Flip(player);
         }
     }
 }

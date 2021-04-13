@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,11 @@ using UnityEngine;
 //enum Permissions {
 //    remove, add, order, visible
 //}
+[System.Serializable]
+public class SlotPermissionPhase {
+    public Phase phase;
+    public List<SlotPermission> permission;
+}
 
 [System.Serializable]
 public class SlotPermission {
@@ -15,12 +21,19 @@ public class SlotPermission {
     public bool visible;
 }
 public class Slot : MonoBehaviour {
-    string name;
+    public string name;
     [SerializeField] protected List<string> allowedTypeCards = new List<string>();
     [SerializeField] protected List<Card> cards = new List<Card>();
-    [SerializeField] protected SlotPermission[] permissions;
+    [SerializeField] protected List<SlotPermissionPhase> permissions;
+    protected Dictionary<Phase, List<SlotPermission>> permissionsDict = new Dictionary<Phase, List<SlotPermission>>();
+    public event EventHandler<EventAction> OnAdd;
+    public event EventHandler<EventAction> OnRemove;
 
-    public bool AddCard(int player, Card card, int index = -1) {
+    protected virtual void Awake() {
+        foreach (SlotPermissionPhase spp in permissions) permissionsDict[spp.phase] = spp.permission;
+    }
+
+    public bool AddCard(int player, Card card, Slot origin = null, int index = -1) {
         if (index < 0) index = cards.Count;
 
         Debug.Log("Request Add");
@@ -28,24 +41,30 @@ public class Slot : MonoBehaviour {
             Debug.Log("Allow Add");
             cards.Insert(index, card);
             card.transform.parent = transform;
+            if (OnAdd != null) OnAdd(this, new EventAction(player, card, origin, this));
             Sort();
+
             return true;
         } else return false;
     }
 
-    //public Card RemoveCard(int index = -1) {
-    //    if (index < 0) index = cards.Count - 1;
-    //    Card card = cards[index];
-    //    return RemoveCard(card);
-    //}
-
-    public bool RemoveCard(int player, Card card) {
+    public bool RemoveCard(int player, Card card, Slot destiny = null) {
+        Debug.Log("Request Remove");
         if (AllowRemove(player, card)) {
+            Debug.Log("Allow Remove");
             cards.Remove(card);
             card.transform.parent = null;
+            if (OnRemove != null) OnRemove(this, new EventAction(player, card, this, destiny));
             Sort();
+
             return true;
         } else return false;
+    }
+
+    public bool RemoveCard(int player, int index = -1, Slot destiny = null) {
+        if (index < 0) index = cards.Count - 1;
+        Card card = cards[index];
+        return RemoveCard(player, card, destiny);
     }
 
     public List<Card> GetCards() {
@@ -99,9 +118,10 @@ public class Slot : MonoBehaviour {
 
     bool GetPermission(int player, string permission) {
         if (player == 0) return true;
+        if (!permissionsDict.ContainsKey(Game.phase)) return false;
 
         SlotPermission sp = null;
-        foreach (SlotPermission perm in permissions) {
+        foreach (SlotPermission perm in permissionsDict[Game.phase]) {
             if (perm.players.Contains(player)) sp = perm;
         }
 

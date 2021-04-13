@@ -32,7 +32,7 @@ public class InputCustom : InputMouse {
                 ExitDrag(button);
                 break;
             case 1:
-                ExitZoom(button);
+                // Never is called because EnterZoom and EnterZoomReveal change InputMouse state
                 break;
         }
     }
@@ -44,7 +44,7 @@ public class InputCustom : InputMouse {
         if (selectedCard[button] != null) {
             Slot currentSlot = selectedCard[button].GetSlot();
 
-            if (currentSlot == customSlotOrigin) selectedCard[button].Move(GameManager.player, customSlotDestiny);
+            if (currentSlot == customSlotOrigin) selectedCard[button].Move(player, customSlotDestiny);
             else Flip(button);
         }
     }

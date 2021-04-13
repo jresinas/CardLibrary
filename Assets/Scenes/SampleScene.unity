@@ -312,6 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e574e1bfff10d514880757b8106ee4de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: 
   allowedTypeCards:
   - Hit
   - Movement
@@ -1003,16 +1004,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e574e1bfff10d514880757b8106ee4de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: P1Hand
   allowedTypeCards:
   - Hit
   - Movement
   cards: []
   permissions:
-  - players: 01000000
-    remove: 0
-    add: 1
-    order: 1
-    visible: 1
+  - phase: 0
+    permission:
+    - players: 01000000
+      remove: 0
+      add: 1
+      order: 0
+      visible: 0
   surface: {fileID: 1960324229}
   size: {x: 6, y: 1}
 --- !u!4 &271436380
@@ -7724,16 +7728,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 055b098c3c1465b4587041377a791040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: Deck
   allowedTypeCards:
   - Hit
   - Movement
   cards: []
   permissions:
-  - players: 01000000
-    remove: 1
-    add: 0
-    order: 0
-    visible: 0
+  - phase: 0
+    permission:
+    - players: 01000000
+      remove: 1
+      add: 0
+      order: 0
+      visible: 0
   surface: {fileID: 208808541}
 --- !u!4 &2093373607
 Transform:

@@ -7,7 +7,8 @@ public class Board: Slot {
     [SerializeField] Transform surface;
     [SerializeField] Vector2 size;
 
-    private void Awake() {
+    void Awake() {
+        base.Awake();
         //foreach (CardData card in cards) {
         //    card.gameObject.transform.localPosition = Vector3.zero;
         //}

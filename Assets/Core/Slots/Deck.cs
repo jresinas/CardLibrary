@@ -9,6 +9,7 @@ public class Deck : Slot {
     //    origin.Move(this, originIndex, destinyIndex);
     //}
     private void Awake() {
+        base.Awake();
         //foreach (CardData card in cards) {
         //    card.gameObject.transform.localPosition = Vector3.zero;
         //}

@@ -47,9 +47,9 @@ public class Card : MonoBehaviour {
         if (AllowMove(player, destiny)) {
             Debug.Log("Card allow move");
             Slot origin = GetSlot();
-            //if (origin.RemoveCard(player, this)) {
-                return destiny.AddCard(player, this);
-            //} else return false;
+            if (origin.RemoveCard(player, this, destiny)) {
+                return destiny.AddCard(player, this, origin);
+            } else return false;
         } else return false;
     }
 
