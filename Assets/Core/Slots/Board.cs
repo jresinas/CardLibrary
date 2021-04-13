@@ -36,7 +36,7 @@ public class Board: Slot {
         surface.localScale = new Vector3(size.x * 0.1f, 1f, size.y * 0.15f);
     }
 
-    public override bool AllowAdd(Card card) {
-        return base.AllowAdd(card) && cards.Count < size.x;
+    public override bool AllowAdd(int player, Card card) {
+        return base.AllowAdd(player, card) && cards.Count < size.x;
     }
 }

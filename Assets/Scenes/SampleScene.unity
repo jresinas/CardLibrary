@@ -313,8 +313,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allowedTypeCards:
-  - Prueba
+  - Hit
+  - Movement
   cards: []
+  permissions: []
   surface: {fileID: 2140406691}
   size: {x: 6, y: 1}
 --- !u!4 &119838067
@@ -1002,8 +1004,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allowedTypeCards:
-  - Prueba
+  - Hit
+  - Movement
   cards: []
+  permissions:
+  - players: 01000000
+    remove: 0
+    add: 1
+    order: 1
+    visible: 1
   surface: {fileID: 1960324229}
   size: {x: 6, y: 1}
 --- !u!4 &271436380
@@ -3409,8 +3418,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
     - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
     - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
     - {fileID: 11400000, guid: 8f57aad44d274434b8c1eff75d22902f, type: 2}
+    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
   - slot: {fileID: 271436379}
     cards:
     - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
@@ -7716,8 +7725,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allowedTypeCards:
-  - Prueba
+  - Hit
+  - Movement
   cards: []
+  permissions:
+  - players: 01000000
+    remove: 1
+    add: 0
+    order: 0
+    visible: 0
   surface: {fileID: 208808541}
 --- !u!4 &2093373607
 Transform:

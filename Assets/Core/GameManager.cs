@@ -10,6 +10,7 @@ public class Setup {
 }
 public class GameManager : MonoBehaviour {
     public static int BUTTONS = 2;
+    public static int player = 1;
     public Setup[] setups;
 
     void Awake() {
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour {
                 foreach (CardData cardData in setup.cards) {
                     if (cardData != null) {
                         Card card = cardData.Instantiate(setup.slot);
-                        setup.slot.AddCard(card);
+                        setup.slot.AddCard(0, card);
                     } else Debug.LogError("Card data could not be found");
                 }
                 //setup.slot.Sort();

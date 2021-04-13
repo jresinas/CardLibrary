@@ -6,7 +6,8 @@ public class InputCustom : InputMouse {
     protected override void ActionClick(int button) {
         switch (button) {
             case 0:
-                Custom1(button);
+                Flip(button);
+                //Custom1(button);
                 break;
             case 1:
                 EnterZoom(button);
@@ -43,7 +44,7 @@ public class InputCustom : InputMouse {
         if (selectedCard[button] != null) {
             Slot currentSlot = selectedCard[button].GetSlot();
 
-            if (currentSlot == customSlotOrigin) selectedCard[button].Move(customSlotDestiny);
+            if (currentSlot == customSlotOrigin) selectedCard[button].Move(GameManager.player, customSlotDestiny);
             else Flip(button);
         }
     }

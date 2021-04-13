@@ -123,7 +123,7 @@ public class InputMouse : MonoBehaviour {
 
     protected void EnterZoomReveal(int button) {
         if (selectedCard[button] != null) {
-            selectedCard[button].EnterZoomReveal();
+            selectedCard[button].EnterZoomReveal(GameManager.player);
             SetState(1);
         }
     }
@@ -143,7 +143,7 @@ public class InputMouse : MonoBehaviour {
     protected void ExitDrag(int button) {
         if (selectedCard[button] != null) {
             Slot slot = GetSlot();
-            selectedCard[button].Move(slot);
+            selectedCard[button].Move(GameManager.player, slot);
             selectedCard[button].ExitDrag();
             selectedCard[button] = null;
             drag[button] = false;
@@ -152,7 +152,7 @@ public class InputMouse : MonoBehaviour {
 
     protected void Flip(int button) {
         if (selectedCard[button] != null) {
-            selectedCard[button].Flip();
+            selectedCard[button].Flip(GameManager.player);
         }
     }
 }

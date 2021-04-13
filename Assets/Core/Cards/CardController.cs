@@ -32,8 +32,8 @@ public class CardController : Card {
     }
 
     // Flip the card
-    public void Flip() {
-        if (base.Flip()) {
+    public void Flip(int player) {
+        if (base.Flip(player)) {
             UpdateRotation(currentRotation + CardFlip());
             StartCoroutine(ExecuteAfterTime(0.4f));
         }
@@ -45,7 +45,7 @@ public class CardController : Card {
     }
 
     // Card animation when enter zoom revealing card
-    public void EnterZoomReveal() {
+    public void EnterZoomReveal(int player) {
         anim.StartTransformAnimation(CameraMiddle(), currentRotation + CameraParallel() + CardFlip(), 0.35f);
     }
 

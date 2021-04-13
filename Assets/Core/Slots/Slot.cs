@@ -2,15 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//enum Permissions {
+//    remove, add, order, visible
+//}
+
+[System.Serializable]
+public class SlotPermission {
+    public List<int> players;
+    public bool remove;
+    public bool add;
+    public bool order;
+    public bool visible;
+}
 public class Slot : MonoBehaviour {
     string name;
     [SerializeField] protected List<string> allowedTypeCards = new List<string>();
     [SerializeField] protected List<Card> cards = new List<Card>();
+    [SerializeField] protected SlotPermission[] permissions;
 
-    public bool AddCard(Card card, int index = -1) {
+    public bool AddCard(int player, Card card, int index = -1) {
         if (index < 0) index = cards.Count;
 
-        if (AllowAdd(card)) {
+        Debug.Log("Request Add");
+        if (AllowAdd(player, card)) {
+            Debug.Log("Allow Add");
             cards.Insert(index, card);
             card.transform.parent = transform;
             Sort();
@@ -24,8 +39,8 @@ public class Slot : MonoBehaviour {
     //    return RemoveCard(card);
     //}
 
-    public bool RemoveCard(Card card) {
-        if (AllowRemove(card)) {
+    public bool RemoveCard(int player, Card card) {
+        if (AllowRemove(player, card)) {
             cards.Remove(card);
             card.transform.parent = null;
             Sort();
@@ -73,27 +88,63 @@ public class Slot : MonoBehaviour {
         }
     }
 
+    /*
+    SlotPermission GetPermission(int player) {
+        foreach (SlotPermission permission in permissions) {
+            if (permission.players.Contains(player)) return permission;
+        }
+        return null;
+    }
+    */
+
+    bool GetPermission(int player, string permission) {
+        if (player == 0) return true;
+
+        SlotPermission sp = null;
+        foreach (SlotPermission perm in permissions) {
+            if (perm.players.Contains(player)) sp = perm;
+        }
+
+        if (sp != null) {
+            switch (permission) {
+                case "Remove":
+                    return sp.remove;
+                case "Add":
+                    return sp.add;
+                case "Order":
+                    return sp.order;
+                case "Visible":
+                    return sp.visible;
+            }
+        }
+        return false;
+    }
+
     public virtual void Sort() { }
 
     // Allow starting drag cards from this slot
-    public virtual bool AllowDrag(Card card) {
-        return AllowReorder(card) || AllowRemove(card);
+    public virtual bool AllowDrag(int player, Card card) {
+        return AllowReorder(player, card) || AllowRemove(player, card);
     }
 
     // Allow reorder cards from this slot
-    public virtual bool AllowReorder(Card card) {
-        return card != null;
+    public virtual bool AllowReorder(int player, Card card) {
+        return card != null && GetPermission(player, "Order");
     }
 
     // Allow remove cards from this slot
-    public virtual bool AllowRemove(Card card) {
-        return card != null;
+    public virtual bool AllowRemove(int player, Card card) {
+        return card != null && GetPermission(player, "Remove");
     }
 
     // Allow add cards to this slot
-    public virtual bool AllowAdd(Card card) {
+    public virtual bool AllowAdd(int player, Card card) {
+        /*
         return (card != null && allowedTypeCards.Contains(card.GetCardType())) &&
-            (true || card.GetSlot() == this && AllowReorder(card));
+            (true || card.GetSlot() == this && AllowReorder(player, card)) &&
+            GetPermission(player, "Add");
+        */
+        return card != null && GetPermission(player, "Add");
     }
 
 }
