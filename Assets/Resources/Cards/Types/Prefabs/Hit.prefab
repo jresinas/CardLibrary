@@ -22,7 +22,7 @@ Animator:
   m_GameObject: {fileID: 1968624493433940614}
   m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1199af0ad843fa945aad754258e4b687, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -88,8 +88,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1081437628278028045, guid: 96b7491b6fb4f3444bfd5caaf767cf57, type: 3}
       propertyPath: m_Name
-      value: Prueba
+      value: Hit
       objectReference: {fileID: 0}
+    - target: {fileID: 1081437628313018714, guid: 96b7491b6fb4f3444bfd5caaf767cf57, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 11e313bd94fb76249bfec23d897f85ef, type: 2}
+    - target: {fileID: 1081437629562293539, guid: 96b7491b6fb4f3444bfd5caaf767cf57, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: afcd0757c406c1e42a89bc3986ae0179, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96b7491b6fb4f3444bfd5caaf767cf57, type: 3}
 --- !u!1 &1968624493401570518 stripped

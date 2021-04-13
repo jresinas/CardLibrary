@@ -7,9 +7,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1968624492269324024, guid: d8d15859a1c06c94cbca9f73be267a36, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: afcd0757c406c1e42a89bc3986ae0179, type: 2}
     - target: {fileID: 1968624493401570518, guid: d8d15859a1c06c94cbca9f73be267a36, type: 3}
       propertyPath: m_Name
-      value: CardType2
+      value: Movement
       objectReference: {fileID: 0}
     - target: {fileID: 1968624493401570519, guid: d8d15859a1c06c94cbca9f73be267a36, type: 3}
       propertyPath: m_RootOrder
@@ -54,6 +58,14 @@ PrefabInstance:
     - target: {fileID: 1968624493401570519, guid: d8d15859a1c06c94cbca9f73be267a36, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968624493433940609, guid: d8d15859a1c06c94cbca9f73be267a36, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c36ecbed5c773b64ea62633e4485c2a0, type: 2}
+    - target: {fileID: 6861514423384733292, guid: d8d15859a1c06c94cbca9f73be267a36, type: 3}
+      propertyPath: m_Controller
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 764496966, guid: d8d15859a1c06c94cbca9f73be267a36, type: 3}
