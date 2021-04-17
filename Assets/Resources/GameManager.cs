@@ -11,28 +11,18 @@ public enum Phase {
     P2Play,
     P2Discard
 };
-
 public class GameManager : Game {
     void Awake() {
         base.Awake();
         phase = Phase.P1Draw;
 
-        foreach (Setup setup in setups) {
-            if (setup.slot != null) {
-                setup.slot.OnAdd += OnMove;
-                //setup.slot.OnRemove += OnRemove;
-                foreach (CardData cardData in setup.cards) {
-                    if (cardData != null) {
-                        Card card = cardData.Instantiate(setup.slot);
-                        setup.slot.AddCard(0, card);
-                    } else Debug.LogError("Card data could not be found");
-                }
-                //setup.slot.Sort();
-            } else Debug.LogError("Slot could not be found");
-        }
+        Deal();
     }
 
-    void OnMove(object slot, EventAction action) {
+    protected override void OnMove(object slot, EventAction action) {
+        Debug.Log(action.player);
+        Debug.Log(action.origin);
+        Debug.Log(action.destiny.name);
         switch (phase) {
             case (Phase.P1Draw):
                 if (action.player == 1 && action.origin.name == "Deck" && action.destiny.name == "P1Hand") phase = Phase.P1Play;

@@ -18,7 +18,7 @@ public class SlotPermission {
     public bool remove;
     public bool add;
     public bool order;
-    public bool visible;
+    public bool flip;
 }
 public class Slot : MonoBehaviour {
     public string name;
@@ -133,8 +133,8 @@ public class Slot : MonoBehaviour {
                     return sp.add;
                 case "Order":
                     return sp.order;
-                case "Visible":
-                    return sp.visible;
+                case "Flip":
+                    return sp.flip;
             }
         }
         return false;
@@ -165,6 +165,11 @@ public class Slot : MonoBehaviour {
             GetPermission(player, "Add");
         */
         return card != null && GetPermission(player, "Add");
+    }
+
+    // Allow flip cards from this slot
+    public virtual bool AllowFlip(int player, Card card) {
+        return card != null && GetPermission(player, "Flip");
     }
 
 }

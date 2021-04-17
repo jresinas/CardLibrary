@@ -8,6 +8,7 @@ public class CardController : Card {
     [SerializeField] TransformAnimator anim;
     [SerializeField] Vector3 currentPosition;
     [SerializeField] Vector3 currentRotation;
+    bool revealed = false;
 
     void Start() {
         if (data != null) LoadEffects();
@@ -20,20 +21,24 @@ public class CardController : Card {
     }
 
     // Update card position
-    public void UpdatePosition(Vector3 newPosition) {
-        anim.StartTransformAnimation(newPosition, currentRotation, 0.2f);
+    public void UpdatePosition(Vector3 newPosition, bool animation = true) {
+        if (animation) anim.StartTransformAnimation(newPosition, currentRotation, 0.2f);
+        else transform.position = newPosition;
         currentPosition = newPosition;
     }
 
     // Update card rotation
-    public void UpdateRotation(Vector3 newRotation) {
-        anim.StartTransformAnimation(currentPosition + Vector3.up, newRotation, 0.5f);
+    public void UpdateRotation(Vector3 newRotation, bool animation = true) {
+        if (animation) anim.StartTransformAnimation(currentPosition + Vector3.up, newRotation, 0.5f);
+        else transform.eulerAngles = newRotation;
         currentRotation = newRotation;
     }
 
     // Flip the card
     public void Flip(int player) {
-        if (base.Flip(player)) {
+        //if (base.Flip(player)) {
+        if (AllowFlip(player) && GetSlot() != null && GetSlot().AllowFlip(player, this)) {
+            revealed = !revealed;
             UpdateRotation(currentRotation + CardFlip());
             StartCoroutine(ExecuteAfterTime(0.4f));
         }
@@ -78,4 +83,11 @@ public class CardController : Card {
     Vector3 CameraMiddle() {
         return Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, ZOOM_DISTANCE));
     }
+
+    /*
+    public void Reveal(bool state) {
+        revealed = state;
+        if (revealed) UpdateRotation
+    }
+    */
 }

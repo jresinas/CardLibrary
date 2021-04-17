@@ -5,7 +5,6 @@ using UnityEngine;
 public class InputMouse : MonoBehaviour {
     protected float DRAG_HEIGHT = 1f;
     protected float PRESS_THRESHOLD = 0.15f;
-    public int player = 1;
 
     protected int state = 0;
     protected bool[] hold = new bool[GameManager.BUTTONS];
@@ -13,9 +12,9 @@ public class InputMouse : MonoBehaviour {
     protected bool[] drag = new bool[GameManager.BUTTONS];
     protected CardController[] selectedCard = new CardController[GameManager.BUTTONS];
 
-    protected virtual void ActionClick(int button) { }
-    protected virtual void EnterActionHold(int button) { }
-    protected virtual void ExitActionHold(int button) { }
+    protected virtual void ActionClick(int button, Card card, Slot slot) { }
+    protected virtual void EnterActionHold(int button, Card card) { }
+    protected virtual void ExitActionHold(int button, Card card, Slot slot) { }
     protected virtual void ChangeState(int current, int next) { }
 
     void Update() {
@@ -58,10 +57,11 @@ public class InputMouse : MonoBehaviour {
 
         if (Input.GetButtonUp("Button" + button)) {
             CardController card = GetCard();
+            Slot slot = GetSlot();
             if (hold[button]) {
                 hold[button] = false;
-                ExitActionHold(button);
-            } else if (card != null && card == selectedCard[button]) ActionClick(button);
+                ExitActionHold(button, selectedCard[button], slot);
+            } else if (card != null && card == selectedCard[button]) ActionClick(button, selectedCard[button], slot);
         }
 
         if (Input.GetButton("Button" + button)) {
@@ -73,7 +73,7 @@ public class InputMouse : MonoBehaviour {
         }
 
         if (press[button] > PRESS_THRESHOLD) {
-            EnterActionHold(button);
+            EnterActionHold(button, selectedCard[button]);
             hold[button] = true;
         }
 
@@ -124,7 +124,7 @@ public class InputMouse : MonoBehaviour {
 
     protected void EnterZoomReveal(int button) {
         if (selectedCard[button] != null) {
-            selectedCard[button].EnterZoomReveal(player);
+            selectedCard[button].EnterZoomReveal(UserManager.player);
             SetState(1);
         }
     }
@@ -144,7 +144,7 @@ public class InputMouse : MonoBehaviour {
     protected void ExitDrag(int button) {
         if (selectedCard[button] != null) {
             Slot slot = GetSlot();
-            selectedCard[button].Move(player, slot);
+            selectedCard[button].Move(UserManager.player, slot);
             selectedCard[button].ExitDrag();
             selectedCard[button] = null;
             drag[button] = false;
@@ -153,7 +153,7 @@ public class InputMouse : MonoBehaviour {
 
     protected void Flip(int button) {
         if (selectedCard[button] != null) {
-            selectedCard[button].Flip(player);
+            selectedCard[button].Flip(UserManager.player);
         }
     }
 }

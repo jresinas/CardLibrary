@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InputCustom : InputMouse {
-    protected override void ActionClick(int button) {
+    protected override void ActionClick(int button, Card card, Slot slot) {
         switch (button) {
             case 0:
-                Flip(button);
-                //Custom1(button);
+                //Flip(button);
+                //Custom2(button);
+                Custom3(button, card, slot);
                 break;
             case 1:
                 EnterZoom(button);
@@ -15,7 +16,7 @@ public class InputCustom : InputMouse {
         }
     }
 
-    protected override void EnterActionHold(int button) {
+    protected override void EnterActionHold(int button, Card card) {
         switch (button) {
             case 0:
                 EnterDrag(button);
@@ -26,7 +27,7 @@ public class InputCustom : InputMouse {
         }
     }
 
-    protected override void ExitActionHold(int button) {
+    protected override void ExitActionHold(int button, Card card, Slot slot) {
         switch (button) {
             case 0:
                 ExitDrag(button);
@@ -44,9 +45,28 @@ public class InputCustom : InputMouse {
         if (selectedCard[button] != null) {
             Slot currentSlot = selectedCard[button].GetSlot();
 
-            if (currentSlot == customSlotOrigin) selectedCard[button].Move(player, customSlotDestiny);
+            if (currentSlot == customSlotOrigin) selectedCard[button].Move(UserManager.player, customSlotDestiny);
             else Flip(button);
         }
     }
 
+    void Custom2(int button) {
+        if (selectedCard[button] != null) {
+            Slot currentSlot = selectedCard[button].GetSlot();
+
+            if (currentSlot == customSlotOrigin) {
+                //selectedCard[button].Flip(UserManager.player);
+                selectedCard[button].Move(UserManager.player, customSlotDestiny);
+                Flip(button);
+            }
+        }
+    }
+
+    void Custom3(int button, Card card, Slot slot) {
+        if (card != null && slot == customSlotOrigin) {
+            //card.Move(UserManager.player, customSlotDestiny);
+            //((CardController)card).Flip(UserManager.player);
+            ((Deck)slot).Draw(UserManager.player, customSlotDestiny);
+        }
+    }
 }
