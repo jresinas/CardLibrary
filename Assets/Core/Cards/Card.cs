@@ -53,6 +53,8 @@ public class Card : MonoBehaviour {
 
     }
 
+
+/*
     // Move card to slot destiny
     public bool Move(int player, Slot destiny) {
         Debug.Log("Card request move");
@@ -64,6 +66,7 @@ public class Card : MonoBehaviour {
             } else return false;
         } else return false;
     }
+*/
 
     /*
     // Flip card

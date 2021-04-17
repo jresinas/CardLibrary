@@ -28,12 +28,13 @@ public class Slot : MonoBehaviour {
     protected Dictionary<Phase, List<SlotPermission>> permissionsDict = new Dictionary<Phase, List<SlotPermission>>();
     public event EventHandler<EventAction> OnAdd;
     public event EventHandler<EventAction> OnRemove;
+    public event EventHandler<EventAction> OnMove;
 
     protected virtual void Awake() {
         foreach (SlotPermissionPhase spp in permissions) permissionsDict[spp.phase] = spp.permission;
     }
 
-    public bool AddCard(int player, Card card, Slot origin = null, int index = -1) {
+    public bool AddCard(int player, Card card, int index = -1) {
         if (index < 0) index = cards.Count;
 
         Debug.Log("Request Add");
@@ -41,30 +42,41 @@ public class Slot : MonoBehaviour {
             Debug.Log("Allow Add");
             cards.Insert(index, card);
             card.transform.parent = transform;
-            if (OnAdd != null) OnAdd(this, new EventAction(player, card, origin, this));
+            if (OnAdd != null) OnAdd(this, new EventAction(player, card, null, this));
             Sort();
 
             return true;
         } else return false;
     }
 
-    public bool RemoveCard(int player, Card card, Slot destiny = null) {
+    public bool RemoveCard(int player, Card card) {
         Debug.Log("Request Remove");
         if (AllowRemove(player, card)) {
             Debug.Log("Allow Remove");
             cards.Remove(card);
             card.transform.parent = null;
-            if (OnRemove != null) OnRemove(this, new EventAction(player, card, this, destiny));
+            if (OnRemove != null) OnRemove(this, new EventAction(player, card, this, null));
             Sort();
 
             return true;
         } else return false;
     }
 
-    public bool RemoveCard(int player, int index = -1, Slot destiny = null) {
+    public bool RemoveCard(int player, int index = -1) {
         if (index < 0) index = cards.Count - 1;
         Card card = cards[index];
-        return RemoveCard(player, card, destiny);
+        return RemoveCard(player, card);
+    }
+
+    public bool Move(int player, Card card, Slot destiny) {
+        if (AllowMove(player, card, destiny)) {
+            if (RemoveCard(player, card)) {
+                if (destiny.AddCard(player, card)) {
+                    if (OnMove != null) OnMove(this, new EventAction(player, card, this, destiny));
+                    return true;
+                } else return false;
+            } else return false;
+        } else return false;
     }
 
     public List<Card> GetCards() {
@@ -165,6 +177,10 @@ public class Slot : MonoBehaviour {
             GetPermission(player, "Add");
         */
         return card != null && GetPermission(player, "Add");
+    }
+
+    public virtual bool AllowMove(int player, Card card, Slot destiny) {
+        return AllowRemove(player, card) && destiny.AllowAdd(player, card);
     }
 
     // Allow flip cards from this slot

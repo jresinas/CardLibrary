@@ -143,11 +143,21 @@ public class InputMouse : MonoBehaviour {
 
     protected void ExitDrag(int button) {
         if (selectedCard[button] != null) {
+            /*
             Slot slot = GetSlot();
             selectedCard[button].Move(UserManager.player, slot);
             selectedCard[button].ExitDrag();
             selectedCard[button] = null;
             drag[button] = false;
+            */
+            Slot destiny = GetSlot();
+            Slot origin = selectedCard[button].GetSlot();
+            if (destiny != null && origin != null) {
+                origin.Move(UserManager.player, selectedCard[button], destiny);
+                selectedCard[button].ExitDrag();
+                selectedCard[button] = null;
+                drag[button] = false;
+            }
         }
     }
 

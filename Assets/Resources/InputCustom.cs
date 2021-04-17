@@ -45,7 +45,8 @@ public class InputCustom : InputMouse {
         if (selectedCard[button] != null) {
             Slot currentSlot = selectedCard[button].GetSlot();
 
-            if (currentSlot == customSlotOrigin) selectedCard[button].Move(UserManager.player, customSlotDestiny);
+            //if (currentSlot == customSlotOrigin) selectedCard[button].Move(UserManager.player, customSlotDestiny);
+            if (currentSlot == customSlotOrigin) currentSlot.Move(UserManager.player, selectedCard[button], customSlotDestiny);
             else Flip(button);
         }
     }
@@ -56,7 +57,8 @@ public class InputCustom : InputMouse {
 
             if (currentSlot == customSlotOrigin) {
                 //selectedCard[button].Flip(UserManager.player);
-                selectedCard[button].Move(UserManager.player, customSlotDestiny);
+                //selectedCard[button].Move(UserManager.player, customSlotDestiny);
+                currentSlot.Move(UserManager.player, selectedCard[button], customSlotDestiny);
                 Flip(button);
             }
         }
