@@ -16,4 +16,4 @@ MonoBehaviour:
   cost: 0
   effects:
   - {fileID: 11500000, guid: cc05d89f9ab521f4e9415bd414e457fe, type: 3}
-  cardType: {fileID: 1968624493401570518, guid: d8d15859a1c06c94cbca9f73be267a36, type: 3}
+  cardType: {fileID: 8483007362357344426, guid: 2d83f1c45b55d1a4ab7cf91969461130, type: 3}
