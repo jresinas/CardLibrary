@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4000013, y: -0.28}
+  m_AnchoredPosition: {x: 2.28, y: -0.28}
   m_SizeDelta: {x: 0.5, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6647253468920008288
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Rev\xE9s"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -302,7 +302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4000013, y: -0.88}
+  m_AnchoredPosition: {x: 2.28, y: -0.88}
   m_SizeDelta: {x: 0.5, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &901379720638668678
@@ -333,7 +333,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -467,7 +467,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Este es el contenido de la carta
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -543,6 +543,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2677829634016963187, guid: cecca1f776649be4cbc22273686dfb0d, type: 3}
+      propertyPath: cardFields.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677829634016963187, guid: cecca1f776649be4cbc22273686dfb0d, type: 3}
+      propertyPath: cardFields.Array.data[0].field
+      value: 
+      objectReference: {fileID: 8157401227152551266}
+    - target: {fileID: 2677829634016963187, guid: cecca1f776649be4cbc22273686dfb0d, type: 3}
+      propertyPath: cardFields.Array.data[1].field
+      value: 
+      objectReference: {fileID: 5978308140861645856}
+    - target: {fileID: 2677829634016963187, guid: cecca1f776649be4cbc22273686dfb0d, type: 3}
+      propertyPath: cardFields.Array.data[2].field
+      value: 
+      objectReference: {fileID: 7058447421412254841}
+    - target: {fileID: 2677829634016963187, guid: cecca1f776649be4cbc22273686dfb0d, type: 3}
+      propertyPath: cardFields.Array.data[3].field
+      value: 
+      objectReference: {fileID: 6623922804175408618}
+    - target: {fileID: 2677829634016963187, guid: cecca1f776649be4cbc22273686dfb0d, type: 3}
+      propertyPath: cardFields.Array.data[0].fieldName
+      value: Name
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677829634016963187, guid: cecca1f776649be4cbc22273686dfb0d, type: 3}
+      propertyPath: cardFields.Array.data[1].fieldName
+      value: Technique
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677829634016963187, guid: cecca1f776649be4cbc22273686dfb0d, type: 3}
+      propertyPath: cardFields.Array.data[2].fieldName
+      value: Response
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677829634016963187, guid: cecca1f776649be4cbc22273686dfb0d, type: 3}
+      propertyPath: cardFields.Array.data[3].fieldName
+      value: Text
+      objectReference: {fileID: 0}
     - target: {fileID: 5454457487432391963, guid: cecca1f776649be4cbc22273686dfb0d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

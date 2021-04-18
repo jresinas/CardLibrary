@@ -7720,25 +7720,9 @@ MonoBehaviour:
   - slot: {fileID: 2093373606}
     cards:
     - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
     - {fileID: 11400000, guid: 8f57aad44d274434b8c1eff75d22902f, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 8f57aad44d274434b8c1eff75d22902f, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 8f57aad44d274434b8c1eff75d22902f, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 8f57aad44d274434b8c1eff75d22902f, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 8f57aad44d274434b8c1eff75d22902f, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 8f57aad44d274434b8c1eff75d22902f, type: 2}
-    - {fileID: 11400000, guid: 8f57aad44d274434b8c1eff75d22902f, type: 2}
-    - {fileID: 11400000, guid: 8f57aad44d274434b8c1eff75d22902f, type: 2}
+    - {fileID: 11400000, guid: 45879686665f4e14fb5d8e58cf8d6988, type: 2}
+    - {fileID: 11400000, guid: b2bf6c90763138a48b07e349e3584b1e, type: 2}
 --- !u!4 &2055920397
 Transform:
   m_ObjectHideFlags: 0

@@ -30,5 +30,4 @@ public class GameManager : Game {
         }
     }
 
-    //void OnRemove(object slot, EventAction action) { }
 }

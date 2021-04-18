@@ -2,17 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using TMPro;
+
+[System.Serializable]
+public class CardField {
+    public string fieldName;
+    public TextMeshProUGUI field;
+}
 
 public class CardController : Card {
     float ZOOM_DISTANCE = 1.5f;
     [SerializeField] TransformAnimator anim;
     [SerializeField] Vector3 currentPosition;
     [SerializeField] Vector3 currentRotation;
+    [SerializeField] CardField[] cardFields;
+    Dictionary<string, TextMeshProUGUI> cardFieldsDict = new Dictionary<string, TextMeshProUGUI>();
     bool revealed = false;
 
+    void Awake() {
+        foreach (CardField cardField in cardFields) {
+            cardFieldsDict[cardField.fieldName] = cardField.field;
+        }
+    }
+
     void Start() {
-        if (data != null) LoadEffects();
-        else Debug.LogError("Card data could not be found");
+        if (data != null) {
+            LoadEffects();
+            LoadTexts();
+        } else Debug.LogError("Card data could not be found");
+    }
+
+    void LoadTexts() {
+        foreach (CardText cardText in data.cardTexts) {
+            if (cardFieldsDict.ContainsKey(cardText.fieldName)) cardFieldsDict[cardText.fieldName].text = cardText.text;
+        }
     }
 
     void LoadEffects() {

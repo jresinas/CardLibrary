@@ -10,10 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0530a3bfdb1e7f43abcade5dd55e6fc, type: 3}
-  m_Name: Hit
+  m_Name: Drive
   m_EditorClassIdentifier: 
   name: 
   cost: 0
   effects:
   - {fileID: 11500000, guid: cc05d89f9ab521f4e9415bd414e457fe, type: 3}
   cardType: {fileID: 8483007362357344426, guid: 2d83f1c45b55d1a4ab7cf91969461130, type: 3}
+  cardTexts:
+  - fieldName: Name
+    text: Drive
+  - fieldName: Technique
+    text: 3
+  - fieldName: Response
+    text: 4

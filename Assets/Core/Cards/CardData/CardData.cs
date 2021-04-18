@@ -3,12 +3,19 @@
 using UnityEngine;
 using UnityEditor;
 
+[System.Serializable]
+public class CardText {
+    public string fieldName;
+    public string text;
+}
+
 [CreateAssetMenu(fileName = "Card", menuName = "Card", order = 51)]
 public class CardData : ScriptableObject {
     public string name;
     public float cost;
     public MonoScript[] effects;
     public GameObject cardType;
+    public CardText[] cardTexts;
 
     public float GetCost() {
         return cost;
