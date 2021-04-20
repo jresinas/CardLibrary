@@ -30,7 +30,8 @@ public class InputCustom : InputMouse {
     protected override void ExitActionHold(int button, Card card, Slot slot) {
         switch (button) {
             case 0:
-                ExitDrag(button);
+                Target response = ExitDrag(button);
+                MoveCard(response);
                 break;
             case 1:
                 // Never is called because EnterZoom and EnterZoomReveal change InputMouse state
@@ -70,5 +71,16 @@ public class InputCustom : InputMouse {
             //((CardController)card).Flip(UserManager.player);
             ((Deck)slot).Draw(UserManager.player, customSlotDestiny);
         }
+    }
+
+
+
+
+    void MoveCard(Target targets) {
+        Slot origin = targets.card.GetSlot();
+        if (targets.targetSlot != null && origin != null) {
+            origin.Move(UserManager.player, targets.card, targets.targetSlot);
+        } 
+        ((CardController)targets.card).ExitDrag();
     }
 }

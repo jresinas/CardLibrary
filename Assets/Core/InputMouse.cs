@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class Target {
+    public Card card;
+    public Card targetCard;
+    public Slot targetSlot;
+    //PlayerController targetPlayer;
+    public Target(Card card, Card targetCard, Slot targetSlot) {
+        this.card = card;
+        this.targetCard = targetCard;
+        this.targetSlot = targetSlot;
+    }
+}
 public class InputMouse : MonoBehaviour {
     protected float DRAG_HEIGHT = 1f;
     protected float PRESS_THRESHOLD = 0.15f;
@@ -14,6 +25,7 @@ public class InputMouse : MonoBehaviour {
 
     protected virtual void ActionClick(int button, Card card, Slot slot) { }
     protected virtual void EnterActionHold(int button, Card card) { }
+    protected virtual void ActionWhileHold(int button, Card card) { }
     protected virtual void ExitActionHold(int button, Card card, Slot slot) { }
     protected virtual void ChangeState(int current, int next) { }
 
@@ -35,6 +47,11 @@ public class InputMouse : MonoBehaviour {
                 ExitZoom(1);
             }
             */
+        }
+
+
+        for (int button = 0; button < GameManager.BUTTONS; button++) {
+            if (hold[button]) ActionWhileHold(button, selectedCard[button]);
         }
 
         //if (drag && card != null) Debug.Log(CheckDestiny());
@@ -141,15 +158,9 @@ public class InputMouse : MonoBehaviour {
         if (selectedCard[button] != null) drag[button] = true;
     }
 
+    /*
     protected void ExitDrag(int button) {
         if (selectedCard[button] != null) {
-            /*
-            Slot slot = GetSlot();
-            selectedCard[button].Move(UserManager.player, slot);
-            selectedCard[button].ExitDrag();
-            selectedCard[button] = null;
-            drag[button] = false;
-            */
             Slot destiny = GetSlot();
             Slot origin = selectedCard[button].GetSlot();
             if (destiny != null && origin != null) origin.Move(UserManager.player, selectedCard[button], destiny);
@@ -157,6 +168,19 @@ public class InputMouse : MonoBehaviour {
             selectedCard[button] = null;
             drag[button] = false;
         }
+    }
+    */
+
+    protected Target ExitDrag(int button) {
+        if (selectedCard[button] != null) {
+            Card card = selectedCard[button];
+            Slot targetSlot = GetSlot();
+            Card targetCard = GetCard();
+            //selectedCard[button].ExitDrag();
+            selectedCard[button] = null;
+            drag[button] = false;
+            return new Target(card, targetCard, targetSlot);
+        } else return null;
     }
 
     protected void Flip(int button) {
