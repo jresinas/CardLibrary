@@ -23,16 +23,27 @@ public class Board: Slot {
         }
     }
 
+    /// <summary>
+    /// Returns the size of the board
+    /// </summary>
+    /// <returns></returns>
     public Vector2 GetSize() {
         return size;
     }
 
+    /// <summary>
+    /// Set the size of the board
+    /// </summary>
+    /// <param name="size"></param>
     public void SetSize(Vector2 size) {
         this.size = size;
         DrawSurface();
         //Sort();
     }
 
+    /// <summary>
+    /// Draw the board surface
+    /// </summary>
     void DrawSurface() {
         surface.localScale = new Vector3(size.x * 0.1f, 1f, size.y * 0.15f);
     }

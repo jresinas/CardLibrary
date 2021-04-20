@@ -19,7 +19,12 @@ public class Deck : Slot {
         DrawSurface();
     }
 
-    
+    /// <summary>
+    /// Move the first card from the deck to hand slot
+    /// </summary>
+    /// <param name="player">Player who is doing action</param>
+    /// <param name="hand">Slot to move the card</param>
+    /// <param name="reveal">If it's true, card is revealed when move if is allowed (optional)</param>
     public void Draw(int player, Slot hand, bool reveal = true) {
         CardController card = (CardController)cards[cards.Count - 1];
         /*
@@ -46,6 +51,9 @@ public class Deck : Slot {
         }
     }
 
+    /// <summary>
+    /// Draw the deck slot surface
+    /// </summary>
     void DrawSurface() {
         surface.localScale = new Vector3(0.1f, 1f, 0.15f);
     }

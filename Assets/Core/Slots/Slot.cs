@@ -34,6 +34,13 @@ public class Slot : MonoBehaviour {
         foreach (SlotPermissionPhase spp in permissions) permissionsDict[spp.phase] = spp.permission;
     }
 
+    /// <summary>
+    /// Add a card to the slot
+    /// </summary>
+    /// <param name="player">Player who is doing action</param>
+    /// <param name="card">Card to add</param>
+    /// <param name="index">Position where card will be added (optional)</param>
+    /// <returns></returns>
     public bool AddCard(int player, Card card, int index = -1) {
         if (index < 0) index = cards.Count;
 
@@ -49,6 +56,12 @@ public class Slot : MonoBehaviour {
         } else return false;
     }
 
+    /// <summary>
+    /// Remove a card from the slot
+    /// </summary>
+    /// <param name="player">Player who is doing action</param>
+    /// <param name="card">Card to remove</param>
+    /// <returns></returns>
     public bool RemoveCard(int player, Card card) {
         Debug.Log("Request Remove");
         if (AllowRemove(player, card)) {
@@ -62,12 +75,25 @@ public class Slot : MonoBehaviour {
         } else return false;
     }
 
+    /// <summary>
+    /// Remove a card from the slot
+    /// </summary>
+    /// <param name="player">Player who is doing action</param>
+    /// <param name="index">Position of the card to remove</param>
+    /// <returns></returns>
     public bool RemoveCard(int player, int index = -1) {
         if (index < 0) index = cards.Count - 1;
         Card card = cards[index];
         return RemoveCard(player, card);
     }
 
+    /// <summary>
+    /// Move a card from the slot to another slot
+    /// </summary>
+    /// <param name="player">Player who is doing action</param>
+    /// <param name="card">Card to move</param>
+    /// <param name="destiny">Slot of destiny</param>
+    /// <returns></returns>
     public bool Move(int player, Card card, Slot destiny) {
         if (AllowMove(player, card, destiny)) {
             if (RemoveCard(player, card)) {
@@ -79,6 +105,10 @@ public class Slot : MonoBehaviour {
         } else return false;
     }
 
+    /// <summary>
+    /// Returns all cards of the slot
+    /// </summary>
+    /// <returns></returns>
     public List<Card> GetCards() {
         return cards;
     }
@@ -128,6 +158,12 @@ public class Slot : MonoBehaviour {
     }
     */
 
+    /// <summary>
+    /// Returns true if slot permissions allow to do specific action
+    /// </summary>
+    /// <param name="player">Player who is doing action</param>
+    /// <param name="permission">Type of permission ("Remove", "Add", "Order" or "Flip")</param>
+    /// <returns></returns>
     bool GetPermission(int player, string permission) {
         if (player == 0) return true;
         if (!permissionsDict.ContainsKey(Game.phase)) return false;
@@ -154,22 +190,42 @@ public class Slot : MonoBehaviour {
 
     public virtual void Sort() { }
 
-    // Allow starting drag cards from this slot
+    /// <summary>
+    /// Returns true if it's allowed to drag cards from this slot
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="card"></param>
+    /// <returns></returns>
     public virtual bool AllowDrag(int player, Card card) {
         return AllowReorder(player, card) || AllowRemove(player, card);
     }
 
-    // Allow reorder cards from this slot
+    /// <summary>
+    /// Returns true if it's allowed to reorder cards in this slot
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="card"></param>
+    /// <returns></returns>
     public virtual bool AllowReorder(int player, Card card) {
         return card != null && GetPermission(player, "Order");
     }
 
-    // Allow remove cards from this slot
+    /// <summary>
+    /// Returns true if it's allowed remove cards from this slot
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="card"></param>
+    /// <returns></returns>
     public virtual bool AllowRemove(int player, Card card) {
         return card != null && GetPermission(player, "Remove");
     }
 
-    // Allow add cards to this slot
+    /// <summary>
+    /// Returns true if it's allowed to add cards to this slot
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="card"></param>
+    /// <returns></returns>
     public virtual bool AllowAdd(int player, Card card) {
         /*
         return (card != null && allowedTypeCards.Contains(card.GetCardType())) &&
@@ -179,11 +235,23 @@ public class Slot : MonoBehaviour {
         return card != null && GetPermission(player, "Add");
     }
 
+    /// <summary>
+    /// Returns true if it's allowed to move cards from this slot to destiny slot
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="card"></param>
+    /// <param name="destiny"></param>
+    /// <returns></returns>
     public virtual bool AllowMove(int player, Card card, Slot destiny) {
         return AllowRemove(player, card) && destiny.AllowAdd(player, card);
     }
 
-    // Allow flip cards from this slot
+    /// <summary>
+    /// Returns true if it's allowed to flip cards in this slot
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="card"></param>
+    /// <returns></returns>
     public virtual bool AllowFlip(int player, Card card) {
         return card != null && GetPermission(player, "Flip");
     }

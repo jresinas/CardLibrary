@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Card : MonoBehaviour {
-    //[SerializeField] protected bool flip;
     [SerializeField] protected CardData data;
     // list of players for which card is revealed 
     protected HashSet<int> visible = new HashSet<int>();
@@ -12,7 +11,6 @@ public class Card : MonoBehaviour {
     //public event EventHandler<Slot> BeforeMove;
     //public event EventHandler<Slot> AfterMove;
 
-    // Set CardData
     public void SetData(CardData data) {
         this.data = data;
     }
@@ -29,25 +27,22 @@ public class Card : MonoBehaviour {
         visible.ExceptWith(players);
     }
 
-    // Get type of the card
+    /// <summary>
+    /// Returns the name of the card type
+    /// </summary>
+    /// <returns></returns>
     public string GetCardType() {
         return data.cardType.name;
     }
 
-    // Get current slot of the card
+    /// <summary>
+    /// Returns the current slot of the card
+    /// </summary>
+    /// <returns></returns>
     public Slot GetSlot() {
         return transform.parent.GetComponent<Slot>();
     }
 
-    /*
-    public void Reveal(int[] players) {
-        visible.UnionWith(players);
-    }
-
-    public void Hide() {
-        Reveal(new int[] { });
-    }
-    */
 
     public void Play<T>(T target) {
 

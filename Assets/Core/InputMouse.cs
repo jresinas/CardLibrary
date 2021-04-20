@@ -109,7 +109,10 @@ public class InputMouse : MonoBehaviour {
         this.state = state;
     }
 
-    // Get current card below cursor
+    /// <summary>
+    /// Returns the card below mouse pointer
+    /// </summary>
+    /// <returns></returns>
     CardController GetCard() {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -187,9 +190,6 @@ public class InputMouse : MonoBehaviour {
             //selectedCard[button].ExitDrag();
             selectedCard[button] = null;
             drag[button] = false;
-            Debug.Log(card);
-            Debug.Log(targetCard);
-            Debug.Log(targetSlot);
             return new Target(card, targetCard, targetSlot);
         } else return null;
     }
