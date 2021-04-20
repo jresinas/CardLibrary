@@ -20,9 +20,6 @@ public class GameManager : Game {
     }
 
     protected override void OnMove(object slot, EventAction action) {
-        Debug.Log(action.player);
-        Debug.Log(action.origin);
-        Debug.Log(action.destiny.name);
         switch (phase) {
             case (Phase.P1Draw):
                 if (action.player == 1 && action.origin.name == "Deck" && action.destiny.name == "P1Hand") phase = Phase.P1Play;

@@ -74,7 +74,7 @@ public class InputMouse : MonoBehaviour {
 
         if (Input.GetButtonUp("Button" + button)) {
             CardController card = GetCard();
-            Slot slot = GetSlot();
+            Slot slot = GetTarget<Slot>();
             if (hold[button]) {
                 hold[button] = false;
                 ExitActionHold(button, selectedCard[button], slot);
@@ -96,8 +96,9 @@ public class InputMouse : MonoBehaviour {
 
         if (drag[button]) {
             if (selectedCard[button] != null) {
+                float cameraHeight = Camera.main.transform.position.y;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                Vector3 point = ray.GetPoint(5f);
+                Vector3 point = ray.GetPoint(cameraHeight);
                 selectedCard[button].gameObject.transform.position = new Vector3(point.x, DRAG_HEIGHT, point.z);
             }
         }
@@ -120,16 +121,23 @@ public class InputMouse : MonoBehaviour {
         return null;
     }
 
-    // Get current slot below cursor
-    Slot GetSlot() {
+    /// <summary>
+    /// Returns the object of type T below mouse pointer
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    T GetTarget<T>() {
+        Card currentCard = GetCard();
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] hits = Physics.RaycastAll(ray);
         foreach (RaycastHit hit in hits) {
-            if (hit.collider.tag == "Slot") {
-                return hit.collider.GetComponentInParent<Slot>();
+            if (hit.collider.tag == typeof(T).ToString()) {
+                T target = hit.collider.GetComponentInParent<T>();
+                // if T = Card, ensure that target isn't the selectedCard
+                if (!ReferenceEquals(target, currentCard)) return target;
             }
         }
-        return null;
+        return default(T);
     }
 
     protected void EnterZoom(int button) {
@@ -174,11 +182,14 @@ public class InputMouse : MonoBehaviour {
     protected Target ExitDrag(int button) {
         if (selectedCard[button] != null) {
             Card card = selectedCard[button];
-            Slot targetSlot = GetSlot();
-            Card targetCard = GetCard();
+            Slot targetSlot = GetTarget<Slot>();
+            Card targetCard = GetTarget<Card>();
             //selectedCard[button].ExitDrag();
             selectedCard[button] = null;
             drag[button] = false;
+            Debug.Log(card);
+            Debug.Log(targetCard);
+            Debug.Log(targetSlot);
             return new Target(card, targetCard, targetSlot);
         } else return null;
     }
