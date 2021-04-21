@@ -3400,6 +3400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abdce07c5b2610478602249d3ad721c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input: {fileID: 913825273}
   players:
   - {fileID: 2055920396}
 --- !u!4 &913825271
@@ -3440,6 +3441,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386c7827724f7564ca8f7585fec3213f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
+  hold: 0000
+  press:
+  - 0
+  - 0
+  drag: 0000
+  selectedCard:
+  - {fileID: 0}
+  - {fileID: 0}
   customSlotOrigin: {fileID: 2093373606}
   customSlotDestiny: {fileID: 271436379}
 --- !u!1 &963194225

@@ -84,6 +84,7 @@ public class CardController : Card {
 
     // Card animation when stop zoom
     public void ExitZoom() {
+        Debug.Log(this.name);
         anim.StartTransformAnimation(currentPosition, currentRotation, 0.3f);
     }
 

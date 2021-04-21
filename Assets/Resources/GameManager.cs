@@ -16,6 +16,10 @@ public class GameManager : Game {
         base.Awake();
         phase = Phase.P1Draw;
 
+
+        InputCustom ic = GetComponent<InputCustom>();
+        ic.OnClick += OnClick;
+
         Deal();
     }
 
@@ -27,4 +31,61 @@ public class GameManager : Game {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+    protected override void OnClick(object source, InputData data) {
+        if (input.GetState() != 0) {
+            Debug.Log("OnClick");
+            input.ExitZoom();
+        }
+    }
+
+    protected override void OnClickUp(object source, InputData data) {
+        if (input.GetState() == 0) {
+            switch (data.button) {
+                case 0:
+                    //Flip(button);
+                    //Custom2(button);
+                    input.Custom3(data.button, data.selectedCard, data.targetSlot);
+                    break;
+                case 1:
+                    input.EnterZoom(data.button);
+                    break;
+            }
+        }
+    }
+
+    protected override void OnEnterHold(object source, InputData data) {
+        switch (data.button) {
+            case 0:
+                Debug.Log("OnEnterHold0");
+                input.EnterDrag(data.button);
+                break;
+            case 1:
+                Debug.Log("OnEnterHold1");
+                input.EnterZoomReveal(data.button);
+                break;
+        }
+    }
+
+    protected override void OnExitHold(object source, InputData data) {
+        switch (data.button) {
+            case 0:
+                Target response = input.ExitDrag(data.button);
+                input.MoveCard(response);
+                break;
+            case 1:
+                // Never is called because EnterZoom and EnterZoomReveal change InputMouse state
+                break;
+        }
+    }
 }

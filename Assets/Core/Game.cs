@@ -18,6 +18,7 @@ public class EventAction {
 }
 
 public class Game : MonoBehaviour {
+    [SerializeField] protected InputCustom input;
     public PlayerController[] players;
     public static int BUTTONS = 2;
     public static Phase phase;
@@ -30,6 +31,14 @@ public class Game : MonoBehaviour {
             Slot slot = slotObj.GetComponent<Slot>();
             //if (slot != null) slot.OnAdd += OnMove;
             if (slot != null && slot is Deck) ((Deck)slot).OnDraw += OnMove;
+        }
+
+        if (input != null) {
+            input.OnClick += OnClick;
+            input.OnClickUp += OnClickUp;
+            input.OnEnterHold += OnEnterHold;
+            input.OnHold += OnHold;
+            input.OnExitHold += OnExitHold;
         }
     }
 
@@ -51,11 +60,15 @@ public class Game : MonoBehaviour {
         }
     }
 
-    protected virtual void OnMove(object slot, EventAction action) {
-    }
-        /*
-        public void OnAdd(int player, Card card, Slot slot) {
 
-        }
-        */
+    // Input events
+    protected virtual void OnClick(object input, InputData data) { }
+    protected virtual void OnClickUp(object input, InputData data) { }
+    protected virtual void OnEnterHold(object input, InputData data) { }
+    protected virtual void OnHold(object input, InputData data) { }
+    protected virtual void OnExitHold(object input, InputData data) { }
+
+    // Objects events
+    protected virtual void OnMove(object slot, EventAction action) { }
+    
 }
