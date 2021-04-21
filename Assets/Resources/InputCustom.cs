@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InputCustom : InputMouse {
+    CardController zoom;
     /*
     public event EventHandler<InputData> OnClick;
     public event EventHandler<InputData> OnEnterHold;
@@ -51,30 +52,39 @@ public class InputCustom : InputMouse {
 
     public void EnterZoom(int button) {
         if (selectedCard[button] != null) {
-            selectedCard[button].EnterZoom();
+            zoom = selectedCard[button];
+            zoom.EnterZoom();
             SetState(1);
         }
     }
 
     public void EnterZoomReveal(int button) {
         if (selectedCard[button] != null) {
-            selectedCard[button].EnterZoomReveal(UserManager.player);
+            zoom = selectedCard[button];
+            zoom.EnterZoomReveal(UserManager.player);
             SetState(1);
         }
     }
 
+    /*
     public void ExitZoom(int button) {
-        Debug.Log("ExitZoom" + button);
-        if (selectedCard[button] != null) {
-            Debug.Log("ExitZoom" + button+" Enter");
-            selectedCard[button].ExitZoom();
+        if (zoom != null) {
+            zoom.ExitZoom();
             selectedCard[button] = null;
+            zoom = null;
             SetState(0);
         }
     }
+    */
 
     public void ExitZoom() {
-        for (int i = 0; i < GameManager.BUTTONS; i++) ExitZoom(i);
+        //for (int i = 0; i < GameManager.BUTTONS; i++) ExitZoom(i);
+        if (zoom != null) {
+            zoom.ExitZoom();
+            for (int i = 0; i < GameManager.BUTTONS; i++) selectedCard[i] = null;
+            zoom = null;
+            SetState(0);
+        }
     }
 
     public void EnterDrag(int button) {
