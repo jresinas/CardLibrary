@@ -35,13 +35,6 @@ public class GameManager : Game {
 
 
 
-
-
-
-
-
-
-
     protected override void OnClick(object source, InputData data) {
         if (input.GetState() != 0) {
             Debug.Log("OnClick");
@@ -68,7 +61,7 @@ public class GameManager : Game {
         switch (data.button) {
             case 0:
                 Debug.Log("OnEnterHold0");
-                input.EnterDrag(data.button);
+                //input.EnterDrag(data.button);
                 break;
             case 1:
                 Debug.Log("OnEnterHold1");
@@ -80,11 +73,18 @@ public class GameManager : Game {
     protected override void OnExitHold(object source, InputData data) {
         switch (data.button) {
             case 0:
-                Target response = input.ExitDrag(data.button);
-                input.MoveCard(response);
+                input.Drop(data.selectedCard, data.targetSlot);
                 break;
             case 1:
                 // Never is called because EnterZoom and EnterZoomReveal change InputMouse state
+                break;
+        }
+    }
+
+    protected override void OnHold(object source, InputData data) {
+        switch (data.button) {
+            case 0:
+                input.Drag(data.button);
                 break;
         }
     }

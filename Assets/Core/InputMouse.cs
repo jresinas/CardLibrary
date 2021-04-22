@@ -3,18 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Target {
-    public Card card;
-    public Card targetCard;
-    public Slot targetSlot;
-    //PlayerController targetPlayer;
-    public Target(Card card, Card targetCard, Slot targetSlot) {
-        this.card = card;
-        this.targetCard = targetCard;
-        this.targetSlot = targetSlot;
-    }
-}
-
 public class InputData {
     public int button;
     public Card selectedCard;
@@ -30,7 +18,6 @@ public class InputData {
 }
 
 public class InputMouse : MonoBehaviour {
-    protected float DRAG_HEIGHT = 1f;
     protected float PRESS_THRESHOLD = 0.15f;
 
     [SerializeField] protected int state = 0;
@@ -131,15 +118,6 @@ public class InputMouse : MonoBehaviour {
             if (OnEnterHold != null) OnEnterHold(this, new InputData(button, selectedCard[button], targetSlot, targetCard));
             hold[button] = true;
         }
-
-        if (drag[button]) {
-            if (selectedCard[button] != null) {
-                float cameraHeight = Camera.main.transform.position.y;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                Vector3 point = ray.GetPoint(cameraHeight);
-                selectedCard[button].gameObject.transform.position = new Vector3(point.x, DRAG_HEIGHT, point.z);
-            }
-        }
     }
 
     
@@ -178,18 +156,4 @@ public class InputMouse : MonoBehaviour {
         return default(T);
     }
 
-    
-
-    /*
-    protected void ExitDrag(int button) {
-        if (selectedCard[button] != null) {
-            Slot destiny = GetSlot();
-            Slot origin = selectedCard[button].GetSlot();
-            if (destiny != null && origin != null) origin.Move(UserManager.player, selectedCard[button], destiny);
-            selectedCard[button].ExitDrag();
-            selectedCard[button] = null;
-            drag[button] = false;
-        }
-    }
-    */
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InputCustom : InputMouse {
+    protected float DRAG_HEIGHT = 1f;
     CardController zoom;
     /*
     public event EventHandler<InputData> OnClick;
@@ -77,6 +78,7 @@ public class InputCustom : InputMouse {
     }
     */
 
+   
     public void ExitZoom() {
         //for (int i = 0; i < GameManager.BUTTONS; i++) ExitZoom(i);
         if (zoom != null) {
@@ -87,21 +89,23 @@ public class InputCustom : InputMouse {
         }
     }
 
-    public void EnterDrag(int button) {
-        if (selectedCard[button] != null) drag[button] = true;
+    public void Drag(int button) {
+        if (selectedCard[button] != null) {
+            float cameraHeight = Camera.main.transform.position.y;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector3 point = ray.GetPoint(cameraHeight);
+            selectedCard[button].gameObject.transform.position = new Vector3(point.x, DRAG_HEIGHT, point.z);
+        }
     }
 
-    public Target ExitDrag(int button) {
-        if (selectedCard[button] != null) {
-            Card card = selectedCard[button];
-            Slot targetSlot = GetTarget<Slot>();
-            Card targetCard = GetTarget<Card>();
-            //selectedCard[button].ExitDrag();
-            selectedCard[button] = null;
-            drag[button] = false;
-            return new Target(card, targetCard, targetSlot);
-        } else return null;
+    public void Drop(Card card, Slot targetSlot) {
+        Slot origin = card.GetSlot();
+        if (targetSlot != null && origin != null) {
+            origin.Move(UserManager.player, card, targetSlot);
+        }
+        ((CardController)card).ExitDrag();
     }
+
 
     public void Flip(int button) {
         if (selectedCard[button] != null) {
@@ -155,14 +159,4 @@ public class InputCustom : InputMouse {
         }
     }
 
-
-
-
-    public void MoveCard(Target targets) {
-        Slot origin = targets.card.GetSlot();
-        if (targets.targetSlot != null && origin != null) {
-            origin.Move(UserManager.player, targets.card, targets.targetSlot);
-        } 
-        ((CardController)targets.card).ExitDrag();
-    }
 }
