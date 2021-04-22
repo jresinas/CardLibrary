@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class InputData {
     public int button;
-    public Card selectedCard;
+    public CardController selectedCard;
     public Slot targetSlot;
-    public Card targetCard;
+    public CardController targetCard;
 
-    public InputData(int button, Card selectedCard, Slot targetSlot, Card targetCard) {
+    public InputData(int button, CardController selectedCard, Slot targetSlot, CardController targetCard) {
         this.button = button;
         this.selectedCard = selectedCard;
         this.targetSlot = targetSlot;
@@ -32,73 +32,27 @@ public class InputMouse : MonoBehaviour {
     public virtual event EventHandler<InputData> OnHold;
     public virtual event EventHandler<InputData> OnExitHold;
 
-    /*
-    protected virtual void ActionClick(int button, Card card, Slot slot) { }
-    protected virtual void EnterActionHold(int button, Card card) { }
-    protected virtual void ActionWhileHold(int button, Card card) { }
-    protected virtual void ExitActionHold(int button, Card card, Slot slot) { }
-    */
     protected virtual void ChangeState(int current, int next) { }
     
-
     void Update() {
         for (int button = 0; button < GameManager.BUTTONS; button++) ButtonBehaviour(button);
-        /*
-        if (state == 0) {
-            for (int button = 0; button < GameManager.BUTTONS; button++) ButtonBehaviour(button);
-            //ButtonBehaviour(0);
-            //ButtonBehaviour(1);
-        } else {
-            for (int i = 0; i < GameManager.BUTTONS; i++) {
-                if (Input.GetButtonDown("Button" + i)) {
-                    for (int j = 0; j < GameManager.BUTTONS; j++) {
-                        ExitZoom(j);
-                    }
-                }
-            }
-        }
-        */
-
-        for (int button = 0; button < GameManager.BUTTONS; button++) {
-            if (hold[button]) {
-                //ActionWhileHold(button, selectedCard[button]);
-                Slot targetSlot = GetTarget<Slot>();
-                Card targetCard = GetTarget<Card>();
-                if (OnHold != null) OnHold(this, new InputData(button, selectedCard[button], targetSlot, targetCard));
-            }
-        }
-
-        //if (drag && card != null) Debug.Log(CheckDestiny());
     }
-
-    /*
-    // Return true if dragging and card can be dropped in current slot below cursor
-    bool CheckDestiny() {
-        if (drag && card != null) {
-            Slot slot = GetSlot();
-            return (slot != null && slot.AllowAdd(card));
-        } else return false;
-    }
-    */
 
     void ButtonBehaviour(int button) {
+        Slot targetSlot = GetTarget<Slot>();
+        CardController targetCard = GetTarget<CardController>();
+
         if (Input.GetButtonDown("Button" + button)) {
             selectedCard[button] = GetCard();
-            Slot targetSlot = GetTarget<Slot>();
-            Card targetCard = GetTarget<Card>();
             if (OnClick != null) OnClick(this, new InputData(button, selectedCard[button], targetSlot, targetCard));
         }
 
         if (Input.GetButtonUp("Button" + button)) {
             CardController card = GetCard();
-            Slot targetSlot = GetTarget<Slot>();
-            Card targetCard = GetTarget<Card>();
             if (hold[button]) {
                 hold[button] = false;
-                //ExitActionHold(button, selectedCard[button], targetSlot);
                 if (OnExitHold != null) OnExitHold(this, new InputData(button, selectedCard[button], targetSlot, targetCard));
             } else if (card != null && card == selectedCard[button]) {
-                //ActionClick(button, selectedCard[button], slot);
                 if (OnClickUp != null) OnClickUp(this, new InputData(button, selectedCard[button], targetSlot, targetCard));
             }
         }
@@ -112,15 +66,14 @@ public class InputMouse : MonoBehaviour {
         }
 
         if (press[button] > PRESS_THRESHOLD && !hold[button]) {
-            //EnterActionHold(button, selectedCard[button]);
-            Slot targetSlot = GetTarget<Slot>();
-            Card targetCard = GetTarget<Card>();
             if (OnEnterHold != null) OnEnterHold(this, new InputData(button, selectedCard[button], targetSlot, targetCard));
             hold[button] = true;
         }
-    }
 
-    
+        if (hold[button]) {
+            if (OnHold != null) OnHold(this, new InputData(button, selectedCard[button], targetSlot, targetCard));
+        }
+    }
 
     /// <summary>
     /// Returns the card below mouse pointer

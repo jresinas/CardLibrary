@@ -12,6 +12,10 @@ public enum Phase {
     P2Discard
 };
 public class GameManager : Game {
+    public Deck playerDeck;
+    public Board playerHand;
+
+
     void Awake() {
         base.Awake();
         phase = Phase.P1Draw;
@@ -48,10 +52,11 @@ public class GameManager : Game {
                 case 0:
                     //Flip(button);
                     //Custom2(button);
-                    input.Custom3(data.button, data.selectedCard, data.targetSlot);
+                    input.Draw(data.targetSlot, playerDeck, playerHand);
                     break;
                 case 1:
-                    input.EnterZoom(data.button);
+                    //input.EnterZoom(data.button);
+                    input.EnterZoom(data.selectedCard);
                     break;
             }
         }
@@ -65,7 +70,8 @@ public class GameManager : Game {
                 break;
             case 1:
                 Debug.Log("OnEnterHold1");
-                input.EnterZoomReveal(data.button);
+                //input.EnterZoomReveal(data.button);
+                input.EnterZoomReveal(data.selectedCard);
                 break;
         }
     }
@@ -84,7 +90,8 @@ public class GameManager : Game {
     protected override void OnHold(object source, InputData data) {
         switch (data.button) {
             case 0:
-                input.Drag(data.button);
+                //input.Drag(data.button);
+                input.Drag(data.selectedCard);
                 break;
         }
     }
