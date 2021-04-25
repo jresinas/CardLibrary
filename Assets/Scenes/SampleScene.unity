@@ -1010,7 +1010,7 @@ MonoBehaviour:
   - Movement
   cards: []
   permissions:
-  - phase: 0
+  - phase: 
     permission:
     - players: 01000000
       remove: 0
@@ -3400,9 +3400,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abdce07c5b2610478602249d3ad721c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  phases:
+  - name: P1Draw
   input: {fileID: 913825273}
   players:
   - {fileID: 2055920396}
+  playerDeck: {fileID: 2093373606}
+  playerHand: {fileID: 271436379}
 --- !u!4 &913825271
 Transform:
   m_ObjectHideFlags: 0
@@ -3436,7 +3440,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 913825269}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 386c7827724f7564ca8f7585fec3213f, type: 3}
   m_Name: 
@@ -3450,8 +3454,6 @@ MonoBehaviour:
   selectedCard:
   - {fileID: 0}
   - {fileID: 0}
-  customSlotOrigin: {fileID: 2093373606}
-  customSlotDestiny: {fileID: 271436379}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -7706,6 +7708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2055920397}
   - component: {fileID: 2055920396}
+  - component: {fileID: 2055920398}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -7747,6 +7750,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2055920398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055920395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386c7827724f7564ca8f7585fec3213f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+  hold: 0000
+  press:
+  - 0
+  - 0
+  drag: 0000
+  selectedCard:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &2093373605
 GameObject:
   m_ObjectHideFlags: 0
@@ -7782,7 +7806,7 @@ MonoBehaviour:
   - Movement
   cards: []
   permissions:
-  - phase: 0
+  - phase: 
     permission:
     - players: 01000000
       remove: 1

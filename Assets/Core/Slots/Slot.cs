@@ -8,7 +8,7 @@ using UnityEngine;
 //}
 [System.Serializable]
 public class SlotPermissionPhase {
-    public Phase phase;
+    public string phase;
     public List<SlotPermission> permission;
 }
 
@@ -25,7 +25,7 @@ public class Slot : MonoBehaviour {
     [SerializeField] protected List<string> allowedTypeCards = new List<string>();
     [SerializeField] protected List<Card> cards = new List<Card>();
     [SerializeField] protected List<SlotPermissionPhase> permissions;
-    protected Dictionary<Phase, List<SlotPermission>> permissionsDict = new Dictionary<Phase, List<SlotPermission>>();
+    protected Dictionary<string, List<SlotPermission>> permissionsDict = new Dictionary<string, List<SlotPermission>>();
     public event EventHandler<EventAction> OnAdd;
     public event EventHandler<EventAction> OnRemove;
     public event EventHandler<EventAction> OnMove;
@@ -166,10 +166,10 @@ public class Slot : MonoBehaviour {
     /// <returns></returns>
     bool GetPermission(int player, string permission) {
         if (player == 0) return true;
-        if (!permissionsDict.ContainsKey(Game.phase)) return false;
+        if (!permissionsDict.ContainsKey(Game.currentPhase.name)) return false;
 
         SlotPermission sp = null;
-        foreach (SlotPermission perm in permissionsDict[Game.phase]) {
+        foreach (SlotPermission perm in permissionsDict[Game.currentPhase.name]) {
             if (perm.players.Contains(player)) sp = perm;
         }
 

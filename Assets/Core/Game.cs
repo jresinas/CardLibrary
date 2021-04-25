@@ -3,6 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Phase {
+    public string name;
+    public IPhase phase;
+
+    public Phase(string name, IPhase phase) {
+        this.name = name;
+        //this.phase = phase; 
+        this.phase = new P1Draw();
+    }
+}
+
 public class EventAction {
     public int player;
     public Card card;
@@ -18,10 +30,13 @@ public class EventAction {
 }
 
 public class Game : MonoBehaviour {
+    public Phase[] phases;
     [SerializeField] protected InputCustom input;
     public PlayerController[] players;
     public static int BUTTONS = 2;
-    public static Phase phase;
+    public static Phase currentPhase;
+    Dictionary<string, Phase> phasesDict = new Dictionary<string, Phase>();
+    //public static Phase phase;
     //public static Game instance = null;
 
     protected void Awake() {
@@ -33,12 +48,26 @@ public class Game : MonoBehaviour {
             if (slot != null && slot is Deck) ((Deck)slot).OnDraw += OnMove;
         }
 
-        if (input != null) {
-            input.OnClick += OnClick;
-            input.OnClickUp += OnClickUp;
-            input.OnEnterHold += OnEnterHold;
-            input.OnHold += OnHold;
-            input.OnExitHold += OnExitHold;
+        foreach (Phase phase in phases) {
+            Debug.Log(phase);
+            Debug.Log(phase.name);
+            Debug.Log(phase.phase);
+
+            phasesDict[phase.name] = new Phase(phase.name, phase.phase);
+        }
+
+        if (phases.Length > 0) currentPhase = phasesDict[phases[0].name];
+        else Debug.LogError("No phases defined");
+
+        if (input != null && currentPhase != null) {
+            Debug.Log(currentPhase);
+            Debug.Log(currentPhase.name);
+            Debug.Log(currentPhase.phase);
+            input.OnClick += currentPhase.phase.OnClick;
+            input.OnClickUp += currentPhase.phase.OnClickUp;
+            input.OnEnterHold += currentPhase.phase.OnEnterHold;
+            input.OnHold += currentPhase.phase.OnHold;
+            input.OnExitHold += currentPhase.phase.OnExitHold;
         }
     }
 
@@ -60,13 +89,23 @@ public class Game : MonoBehaviour {
         }
     }
 
+    public void SetPhase(string phase) {
+        currentPhase.phase.ExitPhase();
+        currentPhase = phasesDict[phase];
+        currentPhase.phase.EnterPhase();
+    }
 
+
+/*
     // Input events
-    protected virtual void OnClick(object input, InputData data) { }
+    protected virtual void OnClick(object input, InputData data) {
+        currentPhase.OnClick(input, data);
+    }
     protected virtual void OnClickUp(object input, InputData data) { }
     protected virtual void OnEnterHold(object input, InputData data) { }
     protected virtual void OnHold(object input, InputData data) { }
     protected virtual void OnExitHold(object input, InputData data) { }
+*/
 
     // Objects events
     protected virtual void OnMove(object slot, EventAction action) { }
