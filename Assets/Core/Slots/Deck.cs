@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Deck : Slot {
     [SerializeField] Transform surface;
-    public event EventHandler<EventAction> OnDraw;
+    public event EventHandler<GameEventData> OnDraw;
 
 
     //public void Draw(Slot origin, int originIndex = 0, int destinyIndex = 0) {
@@ -37,7 +37,7 @@ public class Deck : Slot {
         if (AllowMove(player, card, hand) && (!reveal || card.AllowFlip(player))) {
             Move(player, card, hand);
             if (reveal) card.Flip(player);
-            if (OnDraw != null) OnDraw(this, new EventAction(player, card, this, hand));
+            if (OnDraw != null) OnDraw(this, new GameEventData(player, card, this, hand));
         }
     }
     

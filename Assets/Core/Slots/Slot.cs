@@ -26,9 +26,9 @@ public class Slot : MonoBehaviour {
     [SerializeField] protected List<Card> cards = new List<Card>();
     [SerializeField] protected List<SlotPermissionPhase> permissions;
     protected Dictionary<Phase, List<SlotPermission>> permissionsDict = new Dictionary<Phase, List<SlotPermission>>();
-    public event EventHandler<EventAction> OnAdd;
-    public event EventHandler<EventAction> OnRemove;
-    public event EventHandler<EventAction> OnMove;
+    public event EventHandler<GameEventData> OnAdd;
+    public event EventHandler<GameEventData> OnRemove;
+    public event EventHandler<GameEventData> OnMove;
 
     protected virtual void Awake() {
         foreach (SlotPermissionPhase spp in permissions) permissionsDict[spp.phase] = spp.permission;
@@ -49,7 +49,7 @@ public class Slot : MonoBehaviour {
             Debug.Log("Allow Add");
             cards.Insert(index, card);
             card.transform.parent = transform;
-            if (OnAdd != null) OnAdd(this, new EventAction(player, card, null, this));
+            if (OnAdd != null) OnAdd(this, new GameEventData(player, card, null, this));
             Sort();
 
             return true;
@@ -68,7 +68,7 @@ public class Slot : MonoBehaviour {
             Debug.Log("Allow Remove");
             cards.Remove(card);
             card.transform.parent = null;
-            if (OnRemove != null) OnRemove(this, new EventAction(player, card, this, null));
+            if (OnRemove != null) OnRemove(this, new GameEventData(player, card, this, null));
             Sort();
 
             return true;
@@ -98,7 +98,7 @@ public class Slot : MonoBehaviour {
         if (AllowMove(player, card, destiny)) {
             if (RemoveCard(player, card)) {
                 if (destiny.AddCard(player, card)) {
-                    if (OnMove != null) OnMove(this, new EventAction(player, card, this, destiny));
+                    if (OnMove != null) OnMove(this, new GameEventData(player, card, this, destiny));
                     return true;
                 } else return false;
             } else return false;
@@ -166,10 +166,10 @@ public class Slot : MonoBehaviour {
     /// <returns></returns>
     bool GetPermission(int player, string permission) {
         if (player == 0) return true;
-        if (!permissionsDict.ContainsKey(Game.phase)) return false;
+        if (!permissionsDict.ContainsKey(GameManager.phase)) return false;
 
         SlotPermission sp = null;
-        foreach (SlotPermission perm in permissionsDict[Game.phase]) {
+        foreach (SlotPermission perm in permissionsDict[GameManager.phase]) {
             if (perm.players.Contains(player)) sp = perm;
         }
 
