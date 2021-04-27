@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class GameEventData {
     public int player;
@@ -27,6 +29,17 @@ public class GameHandler : MonoBehaviour {
             //if (slot != null) slot.OnMove += OnMove;
             if (slot != null && slot is Deck) ((Deck)slot).OnDraw += manager.OnMove;
         }
+
+        GameObject[] buttonObjs = GameObject.FindGameObjectsWithTag("Button");
+        foreach (GameObject buttonObj in buttonObjs) {
+            Button button = buttonObj.GetComponent<Button>();
+            ButtonController bc = button.GetComponent<ButtonController>();
+            button.onClick.AddListener(() => manager.OnClickButton(bc));
+        }
     }
+
+
+
+
 
 }

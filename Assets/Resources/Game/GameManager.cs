@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void OnClickButton(ButtonController button) {
+        Debug.Log(button.name);
+    }
 
 
 }
