@@ -39,8 +39,8 @@ public class CardController : Card {
     }
 
     void LoadEffects() {
-        MonoScript script = data.effects[0];
-        gameObject.AddComponent(script.GetClass());
+        //MonoScript script = data.effects[0];
+        //gameObject.AddComponent(script.GetClass());
     }
 
     // Update card position

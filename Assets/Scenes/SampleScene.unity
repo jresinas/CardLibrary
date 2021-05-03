@@ -8021,10 +8021,11 @@ MonoBehaviour:
   setups:
   - slot: {fileID: 2093373606}
     cards:
-    - {fileID: 11400000, guid: 5be235ea0ed1b304eac9b509e99bb85e, type: 2}
-    - {fileID: 11400000, guid: 8f57aad44d274434b8c1eff75d22902f, type: 2}
-    - {fileID: 11400000, guid: 45879686665f4e14fb5d8e58cf8d6988, type: 2}
-    - {fileID: 11400000, guid: b2bf6c90763138a48b07e349e3584b1e, type: 2}
+    - {fileID: 6194251774543311850, guid: 112feacc19b59564ea9f5992a2f1820a, type: 3}
+    - {fileID: 1706052072605100018, guid: a550dc9434879464a8983c3198ed0884, type: 3}
+    - {fileID: 8418838797715304089, guid: fdb632db032e90e40b12003178ac3ba5, type: 3}
+    - {fileID: 4089415260563488334, guid: cca2a7f011cf11e449e6239eecdb0372, type: 3}
+    - {fileID: 3563189634621895661, guid: 1a54e5423f7fae8448ce941842234460, type: 3}
 --- !u!4 &2055920397
 Transform:
   m_ObjectHideFlags: 0

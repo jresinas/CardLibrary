@@ -11,6 +11,7 @@ public class Card : MonoBehaviour {
     //public event EventHandler<Slot> BeforeMove;
     //public event EventHandler<Slot> AfterMove;
 
+
     public void SetData(CardData data) {
         this.data = data;
     }
@@ -32,7 +33,8 @@ public class Card : MonoBehaviour {
     /// </summary>
     /// <returns></returns>
     public string GetCardType() {
-        return data.cardType.name;
+        //return data.cardType.name;
+        return data.cardTemplate.name;
     }
 
     /// <summary>

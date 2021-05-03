@@ -1,7 +1,6 @@
-//using System.Collections;
-//using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 [System.Serializable]
 public class CardText {
@@ -9,22 +8,30 @@ public class CardText {
     public string text;
 }
 
-[CreateAssetMenu(fileName = "Card", menuName = "Card", order = 51)]
-public class CardData : ScriptableObject {
+public class CardData : MonoBehaviour {
     public string name;
-    public float cost;
-    public MonoScript[] effects;
-    public GameObject cardType;
+    public GameObject cardTemplate;
     public CardText[] cardTexts;
 
-    public float GetCost() {
-        return cost;
+
+    public Card Instantate() {
+        if (cardTemplate != null) {
+            GameObject template = Instantiate(cardTemplate);
+            GameObject data = Instantiate(gameObject, template.transform);
+            CardController card = template.GetComponent<CardController>();
+            card.SetData(this);
+            return card;
+        } else {
+            Debug.LogError("Card type undefined");
+            return null;
+        }
     }
 
     public Card Instantiate(Slot slot) {
-        if (cardType != null) {
-            GameObject obj = Instantiate(cardType, slot.transform);
-            CardController card = obj.GetComponent<CardController>();
+        if (cardTemplate != null) {
+            GameObject template = Instantiate(cardTemplate, slot.transform);
+            GameObject data = Instantiate(gameObject, template.transform);
+            CardController card = template.GetComponent<CardController>();
             card.SetData(this);
             return card;
         } else {
