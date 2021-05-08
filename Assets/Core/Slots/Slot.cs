@@ -218,6 +218,7 @@ public class Slot : MonoBehaviour {
     /// <returns></returns>
     public virtual bool AllowRemove(int player, Card card) {
         return card != null && GetPermission(player, "Remove");
+        //return card != null && cards.IndexOf(card) >= 0 && GetPermission(player, "Remove");
     }
 
     /// <summary>

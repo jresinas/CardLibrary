@@ -20,12 +20,14 @@ public class CardController : Card {
     bool revealed = false;
 
     void Awake() {
+        //base.Awake();
         foreach (CardField cardField in cardFields) {
             cardFieldsDict[cardField.fieldName] = cardField.field;
         }
     }
 
     void Start() {
+        base.Start();
         if (data != null) {
             LoadEffects();
             LoadTexts();

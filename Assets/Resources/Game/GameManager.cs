@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour {
     public void OnMove(object slot, GameEventData data) {
         switch (phase) {
             case (Phase.P1Draw):
-                if (data.player == 1 && data.origin.name == "Deck" && data.destiny.name == "P1Hand") phase = Phase.P1Play;
+                //if (data.player == 1 && data.origin.name == "Deck" && data.destiny.name == "P1Hand") phase = Phase.P1Play;
                 break;
         }
     }

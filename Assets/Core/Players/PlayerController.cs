@@ -4,22 +4,22 @@ using UnityEngine;
 
 [System.Serializable]
 public class Setup {
+    public string name;
     public Slot slot;
     public CardData[] cards;
 }
 public class PlayerController : MonoBehaviour {
     public int player;
     public Setup[] setups;
+    public Dictionary<string, Slot> setupsDict = new Dictionary<string, Slot>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    void Awake() {
+        foreach (Setup setup in setups) setupsDict[setup.name] = setup.slot;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void Draw() {
+        if (setupsDict.ContainsKey("Deck") && setupsDict.ContainsKey("Hand")) {
+            ((Deck)setupsDict["Deck"]).Draw(player, setupsDict["Hand"]);
+        }
     }
 }

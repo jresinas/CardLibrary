@@ -22,11 +22,13 @@ public class InputManager : MonoBehaviour {
                 case 0:
                     //Flip(button);
                     //Custom2(button);
-                    InputHelper.Draw(player, data.targetSlot, playerDeck, playerHand);
+                    //InputHelper.Draw(player, data.targetSlot, playerDeck, playerHand);
+                    InputHelper.EnterZoom(data.selectedCard);
                     break;
                 case 1:
                     //input.EnterZoom(data.button);
-                    InputHelper.EnterZoom(data.selectedCard);
+                    //InputHelper.EnterZoom(data.selectedCard);
+                    data.selectedCard.Action("OnPlay", new object[]{data.targetCard, data.targetSlot});
                     break;
             }
         } else InputHelper.ExitZoom();
@@ -42,7 +44,8 @@ public class InputManager : MonoBehaviour {
                 case 1:
                     Debug.Log("OnEnterHold1");
                     //input.EnterZoomReveal(data.button);
-                    InputHelper.EnterZoomReveal(player, data.selectedCard);
+                    //InputHelper.EnterZoomReveal(player, data.selectedCard);
+                    InputHelper.Draw(player, data.targetSlot, playerDeck, playerHand);
                     break;
             }
         }

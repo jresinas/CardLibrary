@@ -26,18 +26,21 @@ public class Deck : Slot {
     /// <param name="hand">Slot to move the card</param>
     /// <param name="reveal">If it's true, card is revealed when move if is allowed (optional)</param>
     public void Draw(int player, Slot hand, bool reveal = true) {
-        CardController card = (CardController)cards[cards.Count - 1];
-        /*
-        if (card.AllowMove(player, hand) && card.AllowFlip(player)) {
-            card.Move(player, hand);
-            card.Flip(player);
-            if (OnDraw != null) OnDraw(this, new EventAction(player, card, this, hand));
-        }
-        */
-        if (AllowMove(player, card, hand) && (!reveal || card.AllowFlip(player))) {
-            Move(player, card, hand);
-            if (reveal) card.Flip(player);
-            if (OnDraw != null) OnDraw(this, new GameEventData(player, card, this, hand));
+        if (cards.Count > 0) {
+            CardController card = (CardController)cards[cards.Count - 1];
+            /*
+            if (card.AllowMove(player, hand) && card.AllowFlip(player)) {
+                card.Move(player, hand);
+                card.Flip(player);
+                if (OnDraw != null) OnDraw(this, new EventAction(player, card, this, hand));
+            }
+            */
+            if (AllowMove(player, card, hand) && (!reveal || card.AllowFlip(player))) {
+                Debug.Log("Allow draw");
+                Move(player, card, hand);
+                if (reveal) card.Flip(player);
+                if (OnDraw != null) OnDraw(this, new GameEventData(player, card, this, hand));
+            }
         }
     }
     

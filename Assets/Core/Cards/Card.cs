@@ -10,6 +10,13 @@ public class Card : MonoBehaviour {
     int owner = 1;
     //public event EventHandler<Slot> BeforeMove;
     //public event EventHandler<Slot> AfterMove;
+    Dictionary<string, CardAction> actionsDict = new Dictionary<string, CardAction>();
+
+
+    protected void Start() {
+        CardAction[] actions = GetComponentsInChildren<CardAction>();
+        foreach (CardAction action in actions) actionsDict[action.name] = action;
+    }
 
 
     public void SetData(CardData data) {
@@ -48,6 +55,15 @@ public class Card : MonoBehaviour {
 
     public void Play<T>(T target) {
 
+    }
+
+    public void Action(string name, object[] args) {
+        /*
+        if (actionsDict.ContainsKey(name)) {
+            foreach (CardEffect effect in actionsDict[name].effects) effect.Apply(args);
+        }
+        */
+        if (actionsDict.ContainsKey(name)) actionsDict[name].Apply(args);
     }
 
 
